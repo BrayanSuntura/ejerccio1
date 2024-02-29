@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seleccionar Representante</title>
+<style>
+    body {
+        font-family: calibri, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    h1 {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .container {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+    .names {
+        width: 40%;
+    }
+    .names h2 {
+        text-align: center;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .controls {
+        width: 20%;
+    }
+    .controls input {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+    .controls button {
+        width: 100%;
+        padding: 8px;
+        background-color: orangered;
+        color: white;
+        border: none;
+        cursor: pointer;
+    }
+    .highlight {
+        background-color: orangered;
+        color: white;
+    }
+</style>
+</head>
+<body>
+    <h1>Seleccionar Representante</h1>
+    <div class="container">
+        <div class="names">
+            <h2>Nombres</h2>
+            <table id="namesTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Aquí se mostrarán los nombres -->
+                </tbody>
+            </table>
+        </div>
+        <div class="controls">
+            <input type="text" id="nameInput" placeholder="Ingrese un nombre">
+            <button onclick="agregarNombre()">Agregar Nombre</button>
+            <input type="text" id="searchInput" placeholder="Buscar nombre">
+            <button onclick="buscarNombre()">Buscar</button>
+        </div>
+    </div>
+
+    <script>
+        let nombres = [];
+
+        function actualizarTabla() {
+            const tableBody = document.querySelector('#namesTable tbody');
+            tableBody.innerHTML = '';
+            nombres.forEach((nombre, index) => {
+                const row = `<tr><td>${index + 1}</td><td>${nombre}</td></tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function agregarNombre() {
+            const nombre = document.querySelector('#nameInput').value;
+            nombres.push(nombre);
+            actualizarTabla();
+        }
+
+        function buscarNombre() {
+            const nombreABuscar = document.querySelector('#searchInput').value;
+            const index = nombres.findIndex(nombre => nombre.toLowerCase() === nombreABuscar.toLowerCase());
+            if (index !== -1) {
+                const tableRows = document.querySelectorAll('#namesTable tbody tr');
+                tableRows.forEach(row => row.classList.remove('highlight'));
+                tableRows[index].classList.add('highlight');
+            } else {
+                alert('Nombre no encontrado');
+            }
+        }
+    </script>
+</body>
+</html>
